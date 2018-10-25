@@ -16,11 +16,12 @@
 			<li><a href="system/">System fonts only</a></li>
 			<li>Self hosted:
 				<ul>
-					<li><a href="baseline-self-host/">Inline CSS, self hosted local fonts</a></li>
-					<li><a href="baseline-self-css-only/">Inline CSS, use Google CDN for fonts</a> (don’t do this, Google URLs are not stable)</li>
-					<li><a href="baseline-self-host-shard/">Inline CSS (sharding), use a separate Netlify subdomain for fonts</a></li>
-					<li><a href="baseline-self-host-shard-no-preconnect/">Inline CSS, use a separate Netlify subdomain for fonts (no preconnect)</a></li>
-					<li><a href="baseline-self-host-shard-font-display/">Inline CSS with font-display (builds on sharding example above)</a></li>
+					<li>A: <a href="baseline-self-host/">Inline CSS, self hosted local fonts</a></li>
+					<li>B: <a href="baseline-self-css-only/">Inline CSS, use Google CDN for fonts</a> (don’t do this, Google URLs are not stable)</li>
+					<li>C: <a href="baseline-self-host-shard/">Inline CSS (sharding), uses separate subdomain for fonts</a></li>
+					<li>D (builds on C): <a href="baseline-self-host-shard-no-preconnect/">Inline CSS, use a separate Netlify subdomain for fonts (no preconnect)</a></li>
+					<li>E (builds on C): <a href="baseline-self-host-shard-font-display/">Inline CSS with font-display, separate subdomain</a></li>
+					<li>F (builds on E): <a href="baseline-self-host-shard-font-display-preload/">Inline CSS with preload and font-display, separate subdomain</a></li>
 				</ul>
 			</li>
 		</ol>
