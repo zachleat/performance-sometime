@@ -14,23 +14,36 @@
 				</ul>
 			</li>
 			<li><a href="system/">System fonts only</a></li>
-			<li>Self hosted:
+			<li>Inline CSS:
 				<ul>
-					<li>A: <a href="baseline-self-host/">Inline CSS, self hosted local fonts</a>
+					<li><em>A:</em> <a href="baseline-self-host/">Self hosted local fonts</a>
 						<ul>
-							<li><a href="baseline-self-host-font-display-preload/">Inline CSS, self hosted local fonts with font-display and 5/5 fonts preloaded</a></li>
-							<!-- <li><a href="baseline-self-host-font-display-preload-optimized/">Inline CSS, self hosted local fonts with preload and font-display, some other optimizations (async some CSS, preload some CSS)</a> -->
-							<li><a href="baseline-self-host-font-display-partial-preload/">Inline CSS, self hosted local fonts with font-display and 2/5 fonts preloaded</a></li>
-							<li><a href="baseline-self-host-partial-preload-partial-shard/">Inline CSS, self hosted local fonts with font-display, 2/5 fonts preloaded, 3/5 fonts sharded</a></li>
-							<li><a href="baseline-self-host-partial-preload-3-partial-shard-2/">Inline CSS, self hosted local fonts with font-display, 3/5 fonts preloaded, 2/5 fonts sharded</a></li>
+							<li><em>H:</em> <a href="baseline-self-host-font-display-preload/">with font-display and 5/5 fonts preloaded</a></li>
+							<!-- <li><a href="baseline-self-host-font-display-preload-optimized/">with preload and font-display, some other optimizations (async some CSS, preload some CSS)</a> -->
+							<li><em>I:</em> <a href="baseline-self-host-font-display-partial-preload/">with font-display and 2/5 fonts preloaded</a></li>
+							<li><em>J:</em> <a href="baseline-self-host-partial-preload-partial-shard/">with font-display and 2/5 fonts preloaded, 3/5 fonts sharded</a></li>
+							<li><em>K:</em> <a href="baseline-self-host-partial-preload-3-partial-shard-2/">with font-display and 3/5 fonts preloaded, 2/5 fonts sharded</a></li>
+							<li><em>L:</em> <a href="baseline-self-host-css-font-loading/">with CSS Font Loading API</a>
 						</ul>
 					</li>
-					<li>B: <a href="baseline-self-css-only/">Inline CSS, use Google CDN for fonts</a> (don’t do this, Google URLs are not stable)</li>
-					<li>C: <a href="baseline-self-host-shard/">Inline CSS (sharding), uses separate subdomain for fonts</a></li>
-					<li>D (builds on C): <a href="baseline-self-host-shard-no-preconnect/">Inline CSS, use a separate Netlify subdomain for fonts (no preconnect)</a></li>
-					<li>E (builds on C): <a href="baseline-self-host-shard-font-display/">Inline CSS with font-display, separate subdomain</a></li>
-					<li>F (builds on E): <a href="baseline-self-host-shard-font-display-preload/">Inline CSS with preload and font-display, separate subdomain</a> (don’t do this, separate domain and preload is costly—preconnect cannot save you)</li>
-					<li>G (builds on F): <a href="baseline-self-host-shard-font-display-preload-preconnect/">Inline CSS with preload and font-display, separate subdomain with preconnect</a> (don’t do this, separate domain and preload is costly—preconnect cannot save you)</li>
+					<li><em>B:</em> <a href="baseline-self-css-only/">Use Google CDN for fonts</a> (don’t do this, Google URLs are not stable)</li>
+					<li>Netlify subdomain (sharding-ish)
+						<ul>
+							<li><em>C:</em> <a href="baseline-self-host-shard/">with preconnect</a>
+								<ul>
+									<li><em>E (builds on C):</em> <a href="baseline-self-host-shard-font-display/">with font-display</a>
+									<li>G (competes with F): <a href="baseline-self-host-shard-font-display-preload-preconnect/">with font-display and 5/5 fonts preloaded</a> (don’t do this, separate domain and preload is costly—preconnect cannot save you)</li>
+									</li>
+								</ul>
+							</li>
+							<li><em>D:</em> <a href="baseline-self-host-shard-no-preconnect/">without preconnect</a>
+								<ul>
+									<li><em>F (competes with G):</em> <a href="baseline-self-host-shard-font-display-preload/">with font-display and 5/5 fonts preloaded</a> (don’t do this, separate domain and preload is costly—preconnect cannot save you)
+								</ul>
+							</li>
+							<li>See also J and K above (partial shard)</li>
+						</ul>
+					</li>
 				</ul>
 			</li>
 			<!-- <li>LET’S GET WILD: <a href="baseline-mix-self-host-google-fonts/">Inline CSS for Roman, Google Fonts for bold/italic</a> -->
