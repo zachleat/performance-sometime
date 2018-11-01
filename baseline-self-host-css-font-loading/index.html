@@ -76,7 +76,9 @@ img.emoji {
 			let url = "url(../_fonts/" + font.family.replace(/[\s\"]/g, "").toLowerCase() + "-" + (props.weight === "700" ? "bold": "" ) + (props.style === "italic" ? "italic": "" ) + ".woff2) format('woff2')";
 
 			let newFont = new FontFace(font.family, url, props);
-			newFont.load().catch(err => console.log( err ));
+			window.setTimeout(() => {
+				newFont.load().catch(err => console.log( err ));
+			}, 5000);
 			return newFont;
 		}
 
