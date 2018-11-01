@@ -93,21 +93,19 @@ img.emoji {
 			}
 		});
 
-		window.setTimeout(function() {
-			Promise.all([
-				fonts.serif.load(),
-				fonts.sans.load(),
-				getFontFace(fonts.serif, { style: "italic" }),
-				getFontFace(fonts.serif, { weight: "700" }),
-				getFontFace(fonts.sans, { weight: "700" })
-			]).then(function(fonts) {
-				console.log( "Fonts loaded!", fonts );
-				fonts.forEach(font => document.fonts.add(font));
-				// Uncomment this to add repeat view optimization
-				// TODO ServiceWorker
-				// sessionStorage.fontsLoaded = true;
-			});
-		}, 4000);
+		Promise.all([
+			fonts.serif.load(),
+			fonts.sans.load(),
+			getFontFace(fonts.serif, { style: "italic" }),
+			getFontFace(fonts.serif, { weight: "700" }),
+			getFontFace(fonts.sans, { weight: "700" })
+		]).then(function(fonts) {
+			console.log( "Fonts loaded!", fonts );
+			fonts.forEach(font => document.fonts.add(font));
+			// Uncomment this to add repeat view optimization
+			// TODO ServiceWorker
+			// sessionStorage.fontsLoaded = true;
+		});
 	}
 </script>
 <link rel='stylesheet' id='all-css-2-1' href='assets/icons.css' type='text/css' media='all' />
