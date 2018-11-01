@@ -12,6 +12,7 @@
 <title>Performance, sometime</title>
 <link rel="preload" href="../_fonts/notosans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../_fonts/notoserif.woff2" as="font" type="font/woff2" crossorigin>
+<link href='https://performance-sometime-assets.netlify.com' crossorigin rel='preconnect' />
 <link rel="alternate" type="application/rss+xml" title="Performance, sometime &raquo; Feed" href="https://performancesometime.wordpress.com/feed/" />
 <link rel="alternate" type="application/rss+xml" title="Performance, sometime &raquo; Comments Feed" href="https://performancesometime.wordpress.com/comments/feed/" />
 	<script type="text/javascript">
@@ -48,24 +49,67 @@ img.emoji {
 }
 </style>
 <link rel='stylesheet' id='all-css-0-1' href='assets/one.css' type='text/css' media='all' />
+<style>
+/* latin */ @font-face { font-family: 'Noto Sans'; font-style: normal; font-weight: 400; src: url(../_fonts/notosans.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; font-display: swap; }
+/* latin */ @font-face { font-family: 'Noto Serif'; font-style: normal; font-weight: 400; src: url(../_fonts/notoserif.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; font-display: swap; }
+</style>
+<style id="fonts-supplementary" media="none">
+/* latin */ @font-face { font-family: 'Noto Sans'; font-style: normal; font-weight: 700; src: url(https://performance-sometime-assets.netlify.com/notosans-bold.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; font-display: swap; }
+/* latin */ @font-face { font-family: 'Noto Serif'; font-style: italic; font-weight: 400; src: url(https://performance-sometime-assets.netlify.com/notoserif-italic.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; font-display: swap; }
+/* latin */ @font-face { font-family: 'Noto Serif'; font-style: normal; font-weight: 700; src: url(https://performance-sometime-assets.netlify.com/notoserif-bold.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; font-display: swap; }
+</style>
 <script>
-	if("fonts" in document) {
-		let serif = new FontFace("Noto Serif", "url(../_fonts/notoserif.woff2) format('woff2')");
-		let serifBold = new FontFace("Noto Serif", "url(../_fonts/notoserif-bold.woff2) format('woff2')", { weight: "700" });
-		let serifItalic = new FontFace("Noto Serif", "url(../_fonts/notoserif-italic.woff2) format('woff2')", { style: "italic" });
-		let sans = new FontFace("Noto Sans", "url(../_fonts/notosans.woff2) format('woff2')");
-		let sansBold = new FontFace("Noto Sans", "url(../_fonts/notosans-bold.woff2) format('woff2')", { weight: "700" });
+	// Section 1/2:
+	// Uncomment this to add repeat view optimization (ServiceWorker left as an exercise)
+	// if(!("fonts" in document) || sessionStorage.fontsLoaded) {
+	if(!("fonts" in document)) {
+		// enable the fallback font-face blocks
+		var styleEl = document.getElementById("fonts-supplementary");
+		if( styleEl ) {
+			styleEl.media = "all";
+		}
+	} else {
+		function getFontFace(font, newProps) {
+			let props = Object.assign({
+				featureSettings: font.featureSettings,
+				style: font.style,
+				weight: font.weight,
+				unicodeRange: font.unicodeRange
+			}, newProps);
 
-		function loadFonts(fonts) {
-			var promises = fonts.map(font => font.load());
+			// careful here Firefox font.family uses `\"Noto Sans\"` and Chrome uses `Noto Sans`.
+			let url = "url(../_fonts/" + font.family.replace(/[\s\"]/g, "").toLowerCase() + "-" + (props.weight === "700" ? "bold": "" ) + (props.style === "italic" ? "italic": "" ) + ".woff2) format('woff2')";
 
-			Promise.all(promises).then(loadedFonts => {
-				loadedFonts.forEach(font => document.fonts.add(font));
+			let newFont = new FontFace(font.family, url, props);
+			return newFont.load().catch(err => console.log( err )).then(function(newFontFace) {
+				// console.log( "LOADED: ", newFontFace );
+				return newFontFace;
 			});
 		}
 
-		loadFonts([serif, sans]);
-		loadFonts([serifBold, serifItalic, sansBold]);
+		let fonts = {};
+		document.fonts.forEach(font => {
+			// careful here Firefox font.family uses `\"Noto Sans\"` and Chrome uses `Noto Sans`.
+			if(font.family.indexOf("Noto Sans") > -1 ) {
+				fonts.sans = font;
+			} else if(font.family.indexOf("Noto Serif") > -1 ) {
+				fonts.serif = font;
+			}
+		});
+
+		Promise.all([
+			fonts.serif.load(),
+			fonts.sans.load(),
+			getFontFace(fonts.serif, { style: "italic" }),
+			getFontFace(fonts.serif, { weight: "700" }),
+			getFontFace(fonts.sans, { weight: "700" })
+		]).then(function(fonts) {
+			// console.log( "Fonts loaded!", fonts );
+			fonts.forEach(font => document.fonts.add(font));
+			// Section 1/2:
+			// Uncomment this to add repeat view optimization (ServiceWorker left as an exercise)
+			// sessionStorage.fontsLoaded = true;
+		});
 	}
 </script>
 <link rel='stylesheet' id='all-css-2-1' href='assets/icons.css' type='text/css' media='all' />
